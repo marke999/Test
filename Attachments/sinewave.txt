@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sine Wave Diagram</title>
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="sineWaveCanvas" width="500" height="200"></canvas>
+
+  <script>
+    const canvas = document.getElementById('sineWaveCanvas');
+    const context = canvas.getContext('2d');
+
+    const amplitude = 50; // Amplitude of the wave
+    const frequency = 0.01; // Frequency of the wave
+    const phaseShift = 0; // Phase shift of the wave
+
+    const centerY = canvas.height / 2;
+    const startX = 0;
+    const endX = canvas.width;
+
+    context.beginPath();
+    context.moveTo(startX, centerY);
+
+    for (let x = startX; x <= endX; x++) {
+      const y = centerY + amplitude * Math.sin(frequency * x + phaseShift);
+      context.lineTo(x, y);
+    }
+
+    context.strokeStyle = 'blue';
+    context.lineWidth = 2;
+    context.stroke();
+  </script>
+</body>
+</html>

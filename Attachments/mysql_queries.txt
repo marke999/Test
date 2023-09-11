@@ -1,0 +1,368 @@
+/* -------------------------------- CREATE TABLES ----------------------------------------*/
+
+create table afstub (
+    objid varchar(10) not null, 
+    state varchar(10) not null, 
+    afno varchar(4) not null, 
+    startseries int not null,
+    endseries int not null, 
+    constraint pk_afstub primary key (objid)
+); 
+
+create table account (
+    objid varchar(10) not null, 
+    code varchar(10) not null, 
+    title varchar(100) not null,
+    constraint pk_account primary key (objid)
+); 
+
+create table cashreceipt (
+    objid varchar(10) not null, 
+    state varchar(10) not null, 
+    receiptdate date not null, 
+    receiptno varchar(10) not null, 
+    amount decimal(10,2) not null default '0', 
+    afstub_objid varchar(10) not null,
+    constraint pk_cashreceipt 
+        primary key (objid),
+    constraint fk_cashreceipt_afstub_objid 
+        foreign key (afstub_objid) 
+        references afstub (objid)
+); 
+
+create table cashreceiptitem (
+    objid varchar(10) not null, 
+    parentid varchar(10) not null, 
+    account_objid varchar(10) not null, 
+    amount decimal(10,2) not null default '0', 
+    constraint pk_cashreceiptitem 
+        primary key (objid), 
+    constraint fk_cashreceiptitem_parentid 
+        foreign key (parentid) 
+        references cashreceipt (objid), 
+    constraint fk_cashreceiptitem_account_objid  
+        foreign key (account_objid) 
+        references account (objid)    
+);
+
+create table cashreceipt_ctc (
+		objid varchar(10) not null,
+		weight varchar(5) not null,
+		height varchar(5) not null,
+		constraint pk_cashreceipt_ctc
+				primary key (objid),
+		constraint fk_cashreceipt_ctc_objid
+				foreign key (objid)
+				references cashreceipt (objid)
+);
+
+/* -------------------------------- INSERT INTO ----------------------------------------*/
+
+INSERT INTO cashreceipt /*(`objid`, `state`, `receiptdate`, `receiptno`, `amount`, `afstub_objid` */
+		VALUES  ("CR0004", "POSTED", "2023-05-01", "RN004", "500", "AFC002"), 
+						("CR0005", "POSTED", "2023-05-01", "RN005", "500", "AFC001"), 
+						("CR0006", "POSTED", "2023-05-01", "RN006", "500", "AFC001"), 
+						("CR0007", "POSTED", "2023-05-01", "RN007", "500", "AFC001"), 
+						("CR0008", "POSTED", "2023-05-01", "RN008", "500", "AFC001"), 
+						("CR0009", "POSTED", "2023-05-01", "RN009", "500", "AFC001"), 
+						("CR0010", "POSTED", "2023-05-01", "RN010", "500", "AFC001"), 
+						("CR0011", "POSTED", "2023-05-01", "RN011", "500", "AFC001"), 
+						("CR0012", "POSTED", "2023-05-01", "RN012", "500", "AFC001"), 
+						("CR0013", "POSTED", "2023-05-01", "RN013", "500", "AFC001"), 
+						("CR0014", "POSTED", "2023-05-01", "RN014", "500", "AFC001"), 
+						("CR0015", "POSTED", "2023-05-01", "RN015", "500", "AFC001"), 
+						("CR0016", "POSTED", "2023-05-01", "RN016", "500", "AFC001"), 
+						("CR0017", "POSTED", "2023-05-01", "RN017", "500", "AFC001"), 
+						("CR0018", "POSTED", "2023-05-01", "RN018", "500", "AFC001"), 
+						("CR0019", "POSTED", "2023-05-01", "RN019", "500", "AFC001"), 
+						("CR0020", "POSTED", "2023-05-01", "RN020", "500", "AFC001"), 
+						("CR0021", "POSTED", "2023-05-01", "RN021", "500", "AFC001"), 
+						("CR0022", "POSTED", "2023-05-01", "RN022", "500", "AFC001"), 
+						("CR0023", "POSTED", "2023-05-01", "RN023", "500", "AFC001"), 
+						("CR0024", "POSTED", "2023-05-01", "RN024", "500", "AFC001"), 
+						("CR0025", "POSTED", "2023-05-01", "RN025", "500", "AFC001"), 
+						("CR0026", "POSTED", "2023-05-01", "RN026", "500", "AFC001"), 
+						("CR0027", "POSTED", "2023-05-01", "RN027", "500", "AFC001"), 
+						("CR0028", "POSTED", "2023-05-01", "RN028", "500", "AFC001"), 
+						("CR0029", "POSTED", "2023-05-01", "RN029", "500", "AFC001"), 
+						("CR0030", "POSTED", "2023-05-01", "RN030", "500", "AFC001"), 
+						("CR0031", "POSTED", "2023-05-01", "RN031", "500", "AFC001"), 
+						("CR0032", "POSTED", "2023-05-01", "RN032", "500", "AFC001"), 
+						("CR0033", "POSTED", "2023-05-01", "RN033", "500", "AFC001"), 
+						("CR0034", "POSTED", "2023-05-01", "RN034", "500", "AFC001"), 
+						("CR0035", "POSTED", "2023-05-01", "RN035", "500", "AFC001"), 
+						("CR0036", "POSTED", "2023-05-01", "RN036", "500", "AFC001"), 
+						("CR0037", "POSTED", "2023-05-01", "RN037", "500", "AFC001"), 
+						("CR0038", "POSTED", "2023-05-01", "RN038", "500", "AFC001"), 
+						("CR0039", "POSTED", "2023-05-01", "RN039", "500", "AFC001"), 
+						("CR0040", "POSTED", "2023-05-01", "RN040", "500", "AFC001"), 
+						("CR0041", "POSTED", "2023-05-01", "RN041", "500", "AFC001"), 
+						("CR0042", "POSTED", "2023-05-01", "RN042", "500", "AFC001"), 
+						("CR0043", "POSTED", "2023-05-01", "RN043", "500", "AFC001"), 
+						("CR0044", "POSTED", "2023-05-01", "RN044", "500", "AFC001"), 
+						("CR0045", "POSTED", "2023-05-01", "RN045", "500", "AFC001"), 
+						("CR0046", "POSTED", "2023-05-01", "RN046", "500", "AFC001"), 
+						("CR0047", "POSTED", "2023-05-01", "RN047", "500", "AFC001"), 
+						("CR0048", "POSTED", "2023-05-01", "RN048", "500", "AFC001"), 
+						("CR0049", "POSTED", "2023-05-01", "RN049", "500", "AFC001"), 
+						("CR0050", "POSTED", "2023-05-01", "RN050", "500", "AFC001"), 
+						("CR0051", "POSTED", "2023-05-01", "RN051", "500", "AFC001"), 
+						("CR0052", "POSTED", "2023-05-01", "RN052", "500", "AFC001"), 
+						("CR0053", "POSTED", "2023-05-01", "RN053", "500", "AFC001"), 
+						("CR0054", "POSTED", "2023-05-01", "RN054", "500", "AFC001"), 
+						("CR0055", "POSTED", "2023-05-01", "RN055", "500", "AFC001"), 
+						("CR0056", "POSTED", "2023-05-01", "RN056", "500", "AFC001"), 
+						("CR0057", "POSTED", "2023-05-01", "RN057", "500", "AFC001"), 
+						("CR0058", "POSTED", "2023-05-01", "RN058", "500", "AFC001"), 
+						("CR0059", "POSTED", "2023-05-01", "RN059", "500", "AFC001");
+
+INSERT INTO cashreceipt
+VALUES  ("CR0061", "POSTED", "2023-05-02", "RN061", "500", "AFC001"), 
+				("CR0062", "POSTED", "2023-05-02", "RN062", "500", "AFC001"), 
+				("CR0063", "POSTED", "2023-05-02", "RN063", "500", "AFC001"), 
+				("CR0064", "POSTED", "2023-05-02", "RN064", "500", "AFC001"), 
+				("CR0065", "POSTED", "2023-05-02", "RN065", "500", "AFC001"), 
+				("CR0066", "POSTED", "2023-05-02", "RN066", "500", "AFC001"), 
+				("CR0067", "POSTED", "2023-05-03", "RN067", "500", "AFC001"), 
+				("CR0068", "POSTED", "2023-05-04", "RN068", "500", "AFC001"), 
+				("CR0069", "POSTED", "2023-05-04", "RN069", "500", "AFC001"), 
+				("CR0070", "POSTED", "2023-05-03", "RN070", "500", "AFC001"), 
+				("CR0071", "POSTED", "2023-05-03", "RN071", "500", "AFC001"), 
+				("CR0072", "POSTED", "2023-05-03", "RN072", "500", "AFC001"), 
+				("CR0073", "POSTED", "2023-05-03", "RN073", "500", "AFC001"), 
+				("CR0074", "POSTED", "2023-05-03", "RN074", "500", "AFC001"), 
+				("CR0075", "POSTED", "2023-05-05", "RN075", "500", "AFC001"), 
+				("CR0076", "POSTED", "2023-05-05", "RN076", "500", "AFC001"), 
+				("CR0077", "POSTED", "2023-05-05", "RN077", "500", "AFC001"), 
+				("CR0078", "POSTED", "2023-05-05", "RN078", "500", "AFC001"), 
+				("CR0079", "POSTED", "2023-05-05", "RN079", "500", "AFC001"), 
+				("CR0080", "POSTED", "2023-05-05", "RN080", "500", "AFC001"), 
+				("CR0081", "POSTED", "2023-05-05", "RN081", "500", "AFC001"), 
+				("CR0082", "POSTED", "2023-05-05", "RN082", "500", "AFC001"), 
+				("CR0083", "POSTED", "2023-05-05", "RN083", "500", "AFC001"), 
+				("CR0084", "POSTED", "2023-05-05", "RN084", "500", "AFC001"), 
+				("CR0085", "POSTED", "2023-05-05", "RN085", "500", "AFC001"), 
+				("CR0086", "POSTED", "2023-05-05", "RN086", "500", "AFC001"), 
+				("CR0087", "POSTED", "2023-05-05", "RN087", "500", "AFC001"), 
+				("CR0088", "POSTED", "2023-05-06", "RN088", "500", "AFC001"), 
+				("CR0089", "POSTED", "2023-05-06", "RN089", "500", "AFC001"), 
+				("CR0090", "POSTED", "2023-05-06", "RN090", "500", "AFC001"), 
+				("CR0091", "POSTED", "2023-05-06", "RN091", "500", "AFC001"), 
+				("CR0092", "POSTED", "2023-05-06", "RN092", "500", "AFC001"), 
+				("CR0093", "POSTED", "2023-05-06", "RN093", "500", "AFC001"), 
+				("CR0094", "POSTED", "2023-05-06", "RN094", "500", "AFC001"), 
+				("CR0095", "POSTED", "2023-05-06", "RN095", "500", "AFC001"), 
+				("CR0096", "POSTED", "2023-05-07", "RN096", "500", "AFC001"), 
+				("CR0097", "POSTED", "2023-05-07", "RN097", "500", "AFC001"), 
+				("CR0098", "POSTED", "2023-05-07", "RN098", "500", "AFC001"), 
+				("CR0099", "POSTED", "2023-05-07", "RN099", "500", "AFC001"), 
+				("CR0100", "POSTED", "2023-05-07", "RN100", "500", "AFC001"), 
+				("CR0101", "POSTED", "2023-05-07", "RN101", "500", "AFC001"), 
+				("CR0102", "POSTED", "2023-05-07", "RN102", "500", "AFC001"), 
+				("CR0103", "POSTED", "2023-05-07", "RN103", "500", "AFC001"), 
+				("CR0104", "POSTED", "2023-05-07", "RN104", "500", "AFC001"), 
+				("CR0105", "POSTED", "2023-05-07", "RN105", "500", "AFC001"), 
+				("CR0106", "POSTED", "2023-05-07", "RN106", "500", "AFC001"), 
+				("CR0107", "POSTED", "2023-05-11", "RN107", "500", "AFC001"), 
+				("CR0108", "POSTED", "2023-05-11", "RN108", "500", "AFC001"), 
+				("CR0109", "POSTED", "2023-05-11", "RN109", "500", "AFC001"), 
+				("CR0110", "POSTED", "2023-05-11", "RN110", "500", "AFC001"), 
+				("CR0111", "POSTED", "2023-05-11", "RN111", "500", "AFC001"), 
+				("CR0112", "POSTED", "2023-05-11", "RN112", "500", "AFC001"), 
+				("CR0113", "POSTED", "2023-05-11", "RN113", "500", "AFC001"), 
+				("CR0114", "POSTED", "2023-05-11", "RN114", "500", "AFC001"), 
+				("CR0115", "POSTED", "2023-05-11", "RN115", "500", "AFC001"), 
+				("CR0116", "POSTED", "2023-05-11", "RN116", "500", "AFC001"), 
+				("CR0117", "POSTED", "2023-05-11", "RN117", "500", "AFC001"), 
+				("CR0118", "POSTED", "2023-05-11", "RN118", "500", "AFC001");
+
+
+INSERT INTO cashreceipt
+VALUES  ("CR0120", "POSTED", "2023-05-02", "RN120", "500", "AFC002"), 
+				("CR0121", "POSTED", "2023-05-02", "RN121", "500", "AFC002"), 
+				("CR0122", "POSTED", "2023-05-02", "RN122", "500", "AFC002"), 
+				("CR0123", "POSTED", "2023-05-02", "RN123", "500", "AFC002"), 
+				("CR0124", "POSTED", "2023-05-02", "RN124", "500", "AFC002"), 
+				("CR0125", "POSTED", "2023-05-02", "RN125", "500", "AFC002"), 
+				("CR0126", "POSTED", "2023-05-03", "RN126", "500", "AFC002"), 
+				("CR0127", "POSTED", "2023-05-04", "RN127", "500", "AFC002"), 
+				("CR0128", "POSTED", "2023-05-04", "RN128", "500", "AFC002"), 
+				("CR0129", "POSTED", "2023-05-03", "RN129", "500", "AFC002"), 
+				("CR0130", "POSTED", "2023-05-03", "RN130", "500", "AFC002"), 
+				("CR0131", "POSTED", "2023-05-03", "RN131", "500", "AFC002"), 
+				("CR0132", "POSTED", "2023-05-03", "RN132", "500", "AFC002"), 
+				("CR0133", "POSTED", "2023-05-03", "RN133", "500", "AFC002"), 
+				("CR0134", "POSTED", "2023-05-05", "RN134", "500", "AFC002"), 
+				("CR0135", "POSTED", "2023-05-05", "RN135", "500", "AFC002"), 
+				("CR0136", "POSTED", "2023-05-05", "RN136", "500", "AFC002"), 
+				("CR0137", "POSTED", "2023-05-05", "RN137", "500", "AFC002"), 
+				("CR0138", "POSTED", "2023-05-05", "RN138", "500", "AFC002"), 
+				("CR0139", "POSTED", "2023-05-05", "RN139", "500", "AFC002"), 
+				("CR0140", "POSTED", "2023-05-05", "RN140", "500", "AFC002"), 
+				("CR0141", "POSTED", "2023-05-05", "RN141", "500", "AFC002"), 
+				("CR0142", "POSTED", "2023-05-05", "RN142", "500", "AFC002"), 
+				("CR0143", "POSTED", "2023-05-05", "RN143", "500", "AFC002"), 
+				("CR0144", "POSTED", "2023-05-05", "RN144", "500", "AFC002"), 
+				("CR0145", "POSTED", "2023-05-05", "RN145", "500", "AFC002"), 
+				("CR0146", "POSTED", "2023-05-05", "RN146", "500", "AFC002"), 
+				("CR0147", "POSTED", "2023-05-06", "RN147", "500", "AFC002"), 
+				("CR0148", "POSTED", "2023-05-06", "RN148", "500", "AFC002"), 
+				("CR0149", "POSTED", "2023-05-06", "RN149", "500", "AFC002"), 
+				("CR0150", "POSTED", "2023-05-06", "RN150", "500", "AFC002"), 
+				("CR0151", "POSTED", "2023-05-06", "RN151", "500", "AFC002"), 
+				("CR0152", "POSTED", "2023-05-06", "RN152", "500", "AFC002"), 
+				("CR0153", "POSTED", "2023-05-06", "RN153", "500", "AFC002"), 
+				("CR0154", "POSTED", "2023-05-06", "RN154", "500", "AFC002"), 
+				("CR0155", "POSTED", "2023-05-07", "RN155", "500", "AFC002"), 
+				("CR0156", "POSTED", "2023-05-07", "RN156", "500", "AFC002"), 
+				("CR0157", "POSTED", "2023-05-07", "RN157", "500", "AFC002"), 
+				("CR0158", "POSTED", "2023-05-07", "RN158", "500", "AFC002"), 
+				("CR0159", "POSTED", "2023-05-07", "RN159", "500", "AFC002"), 
+				("CR0160", "POSTED", "2023-05-07", "RN160", "500", "AFC002"), 
+				("CR0161", "POSTED", "2023-05-07", "RN161", "500", "AFC002"), 
+				("CR0162", "POSTED", "2023-05-07", "RN162", "500", "AFC002"), 
+				("CR0163", "POSTED", "2023-05-07", "RN163", "500", "AFC002"), 
+				("CR0164", "POSTED", "2023-05-07", "RN164", "500", "AFC002"), 
+				("CR0165", "POSTED", "2023-05-07", "RN165", "500", "AFC002"), 
+				("CR0166", "POSTED", "2023-05-11", "RN166", "500", "AFC002"), 
+				("CR0167", "POSTED", "2023-05-11", "RN167", "500", "AFC002"), 
+				("CR0168", "POSTED", "2023-05-11", "RN168", "500", "AFC002"), 
+				("CR0169", "POSTED", "2023-05-11", "RN169", "500", "AFC002"), 
+				("CR0170", "POSTED", "2023-05-11", "RN170", "500", "AFC002"), 
+				("CR0171", "POSTED", "2023-05-11", "RN171", "500", "AFC002"), 
+				("CR0172", "POSTED", "2023-05-11", "RN172", "500", "AFC002"), 
+				("CR0173", "POSTED", "2023-05-11", "RN173", "500", "AFC002"), 
+				("CR0174", "POSTED", "2023-05-11", "RN174", "500", "AFC002"), 
+				("CR0175", "POSTED", "2023-05-11", "RN175", "500", "AFC002"), 
+				("CR0176", "POSTED", "2023-05-11", "RN176", "500", "AFC002"), 
+				("CR0177", "POSTED", "2023-05-11", "RN177", "500", "AFC002");
+
+EXPLAIN
+SELECT * FROM cashreceipt
+WHERE receiptno = 'RN0001'
+	 OR receiptno = 'RN0002'
+	 OR receiptno = 'RN0003'
+	 OR receiptno = 'RN004'
+
+EXPLAIN
+SELECT * FROM cashreceipt
+WHERE 
+			receiptdate >= '2023-05-01' and 
+			receiptdate <= '2023-05-02' and
+			receiptno IN ('RN0001','RN0002', 'RN0003', 'RN004', 'RN059', 'RN057'
+);
+
+EXPLAIN
+CREATE INDEX ix_receiptno
+		ON cashreceipt (receiptdate);
+
+/* Result is grouped by receipt date with total # of receipts */
+SELECT receiptdate, COUNT(objid) AS totalcount FROM cashreceipt 
+GROUP BY receiptdate;
+
+/* Limited only to more than 6 totalcounts)*/
+/* Always declare GROUP BY when including aggregate functions*/
+SELECT
+			receiptdate, 
+			COUNT(objid) AS totalcount, 
+			SUM(amount) AS totalant
+FROM cashreceipt
+WHERE receiptdate >= '2023-05-03'
+	AND receiptdate < '2023-05-15'
+GROUP BY receiptdate
+HAVING COUNT(objid) >= 6
+ORDER BY SUM(amount) ASC
+LIMIT 5
+;
+
+/* To link without using Join */
+SELECT * FROM cashreceipt, afstub
+WHERE  cashreceipt.afstub_objid = afstub.objid
+	
+/* To link without using Join, using alias*/
+SELECT * FROM cashreceipt c, afstub af
+WHERE  c.afstub_objid = af.objid
+
+/* Count and Sum using Alias and linking without using Joins */
+SELECT
+	af.afno, 
+	COUNT(c.objid) as totalcount,
+	SUM(c.amount) as totalamt
+FROM cashreceipt c, afstub af
+WHERE  c.afstub_objid = af.objid
+GROUP BY af.afno
+;
+
+/* Does not include Distinct */
+SELECT af.afno
+FROM cashreceipt c, afstub af
+WHERE  c.afstub_objid = af.objid
+GROUP BY af.afno
+;
+
+/* Includes Distinct */
+SELECT DISTINCT 
+	af.afno, 
+	COUNT(c.objid) as totalcount,
+	SUM(c.amount) as totalamt
+FROM cashreceipt c, afstub af
+WHERE  c.afstub_objid = af.objid
+GROUP BY af.afno
+;
+
+/*To start running */
+
+/* */
+SELECT 
+	a.title AS AcctTitle,
+	SUM(ci.amount) as TotalAmt
+FROM cashreceipt c, cashreceiptitem ci, account a
+WHERE c.receiptdate >= '2023-05-01'
+	AND c.receiptdate <  '2023-05-10'
+	AND ci.parentid = c.objid 
+  AND ci.account_objid = a.objid
+GROUP BY a.title
+;
+
+/* To void receipts */
+CREATE TABLE cashreceipt_void (
+	objid varchar(10) NOT NULL, 
+	receiptid varchar(10) NOT NULL,
+	txndate datetime NOT NULL, 
+	remarks varchar(255) NOT NULL,
+	username varchar(50) NOT NULL,
+	CONSTRAINT pk_cashreceipt_void 
+		PRIMARY KEY (objid),
+	CONSTRAINT fk_cashreceipt_void_receiptid
+		FOREIGN KEY (receiptid)
+		REFERENCES cashreceipt (objid)
+);
+
+/* Provide records on cashreceipt  & void */
+SELECT *
+FROM cashreceipt c, cashreceipt_void cv
+
+/* Provide entry to void receipts */
+
+SELECT 
+	receiptdate,
+	COUNT(objid) as totalcount,
+	SUM(c.amount) as totalamt,
+FROM cashreceipt c, cashreceipt_void cv
+WHERE cv.receiptid = c.objid
+GROUP BY c.receiptdate
+
+/* To update specific cash receipts with void entry*/
+SELECT 
+	receiptdate,
+	COUNT(objid) as totalcount,
+	SUM(c.amount) as totalamt,
+	SUM((
+	
+	SELECT c.amount
+	FROM cashreceipt_void
+	WHERE receiptid = c.objid
+	
+	)) AS totalvoidamt
+FROM cashreceipt c
+GROUP BY c.receiptdate

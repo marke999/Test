@@ -1,0 +1,151 @@
+Configuring Linux to send email from Server to Gmail
+
+----------------------------------------------------------------------
+
+**Note: Make sure you have a Linux OS. The steps will be done in a terminal.
+
+
+1.) Install postfix mail transfer agent (MTA) in your Linux Server
+
+
+ 	$ sudo apt-get update
+
+
+	$ sudo apt install postfix
+
+
+2.) Configure the installation to connect to the Internet (2nd option) and set the domain name for your SMTP server.
+
+
+3.) Go to the postfix filesystem
+
+
+	$ cd /etc/postfix
+
+
+4.) Edit the following lines in the main.cf file
+
+
+	mydestination = @myhostname, {server domain}, {server name}, localhost.localdomain, localhost
+	relayhost = [smtp.gmail.com]:587
+
+
+	**Note: Change the server domain and server name.
+
+
+5.) Add the following commands at the end of the main.cf file
+
+
+	smtp_sasl_auth_enable = yes
+	smtp_use_tls = yes
+	smtp_sasl_password_maps = hash:/etc/postfix/sasl/sasl_passwd
+	smtp_sasl_security_options = noanonymous
+	smtp_tls_security_level = encrypt
+	smtp_tls_note_starttls_offer = yes
+	smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+
+6.) Create an app password through the custom app 2FA in Google
+
+
+	- Go to your Google Account.
+
+
+	- Click your gmail icon on the topmost right section and click Manage Your Google Account.
+
+
+	- Go to Security Section. Click 2-Step Verification.
+
+
+	- Scroll Down to App Passwords
+
+
+	- Under both Select App and Select Device, click Other (Custom Name) and put any name.
+
+
+	- Click generate then copy the app password
+
+
+6.) Go back to your Linux Server to configure the Gmail App password to be used.
+
+
+	- cd /etc/postfix/sasl
+
+
+7.) Create the file to store your app password and input the following commands below:
+
+
+	$ sudo nano sasl_passwd
+
+
+	#2FA from Google
+	[smtp.gmail.com]:587 youremail@gmail.com:{app password}
+
+
+	Example:
+	#2FA from Google
+	[smtp.gmail.com]:587 mark.ramesessystems@gmail.com:grfqsapmnzpolxhf
+
+
+8.) Activate the sasl_passwd file and restart postfix 
+
+
+	$ sudo postmap sasl_passwd
+
+
+	$ sudo systemctl restart postfix
+
+
+9.) Try sending email using the postfix MTA through a script to verify successful configuration. If you want use just a single command line for testing purposes, you need to install the mailutils package.
+
+
+	***Through single-command line***
+
+
+	$ sudo apt install mailutils
+
+
+	$ echo "Test" | mail -s "Test from Linux Server" youremail@gmail.com
+
+
+	***Through a script (copy the commands after creating the email.sh file)***
+
+
+	$ nano email.sh
+
+
+	#!/bin/bash
+
+
+	#Prompt for email details
+	read -p "To: " recepient
+	read -p "Subject: " subject
+	read -p "CC: " cc
+	read -p "BCC: " bcc
+	read -p "Message: " message
+
+
+	#Construct the email heads and body
+	headers="To: $recepient
+	Subject: $subject
+	CC: $cc
+	BCC: $bcc
+
+
+	Message: $message"
+
+
+	#Send email using the sendmail command
+	echo "$headers" | /usr/sbin/sendmail -t
+
+
+	**********************************************************
+
+
+	Note: Save the file then make it executable (sudo chmod +x email.sh), execute it by entering sh email.sh
+
+
+10.) If you have problems in sending the email through postfix MTA, check on the logs to troubleshoot.
+
+
+	$ sudo tail /var/log/mail.log
